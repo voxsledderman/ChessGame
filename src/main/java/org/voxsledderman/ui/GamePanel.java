@@ -1,5 +1,7 @@
 package org.voxsledderman.ui;
 
+import org.voxsledderman.logic.Board;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,10 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 1200;
     public static final int HEIGHT = 900;
     public static final int FPS = 60;
+
     Thread gameThread;
+    Board board = new Board();
+    BoardDrawer boardDrawer = new BoardDrawer(board);
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -42,8 +47,11 @@ public class GamePanel extends JPanel implements Runnable {
     private void update() {
     }
 
-    @Override
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+
+        boardDrawer.drawSquares(g2);
     }
 }
