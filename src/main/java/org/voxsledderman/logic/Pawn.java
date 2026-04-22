@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Pawn extends Piece {
 
-    public Pawn(ChessColor color, BufferedImage image) {
-        super(color, image);
+    public Pawn(ChessColor color, String pathToImage) {
+        super(color, pathToImage);
     }
 }

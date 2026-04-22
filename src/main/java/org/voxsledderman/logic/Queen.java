@@ -5,7 +5,7 @@ import org.voxsledderman.enums.ChessColor;
 import java.awt.image.BufferedImage;
 
 public class Queen extends Piece{
-    protected Queen(ChessColor color, BufferedImage image) {
-        super(color, image);
+    protected Queen(ChessColor color, String pathToImage) {
+        super(color, pathToImage);
     }
 }

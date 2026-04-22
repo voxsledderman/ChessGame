@@ -1,12 +1,16 @@
 package org.voxsledderman.ui;
 
+import lombok.Getter;
 import org.voxsledderman.logic.Board;
+import org.voxsledderman.logic.Piece;
 
 import java.awt.*;
 
 public class BoardDrawer {
     private final int SQUARE_SIZE = 100;
     private final int OFFSET = 40;
+    private final int PIECE_SIZE = 100;
+    private final int PIECE_Y_OFFSET = 5;
 
     private final Board board;
     private final Color WHITE_SQUARE_COLOR = new Color(240, 248, 255);
@@ -43,6 +47,24 @@ public class BoardDrawer {
             g2.drawString(String.valueOf(8 - i),
                     OFFSET - 25,
                     OFFSET + i * SQUARE_SIZE + SQUARE_SIZE / 2 + 7);
+        }
+    }
+
+    public void drawPieces(Graphics2D g2) {
+        Piece[][] piecesArray = board.getBoard();
+        int centeringPadding = (SQUARE_SIZE - PIECE_SIZE) / 2;
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = piecesArray[row][col];
+
+                if (piece != null) {
+                    int xPixel = OFFSET + col * SQUARE_SIZE + centeringPadding;
+                    int yPixel = OFFSET + row * SQUARE_SIZE + centeringPadding - PIECE_Y_OFFSET;
+
+                    g2.drawImage(piece.getImage(), xPixel, yPixel, PIECE_SIZE, PIECE_SIZE, null);
+                }
+            }
         }
     }
 }

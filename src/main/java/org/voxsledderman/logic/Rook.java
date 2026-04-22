@@ -5,7 +5,7 @@ import org.voxsledderman.enums.ChessColor;
 import java.awt.image.BufferedImage;
 
 public class Rook extends Piece{
-    protected Rook(ChessColor color, BufferedImage image) {
-        super(color, image);
+    protected Rook(ChessColor color, String pathToImage) {
+        super(color, pathToImage);
     }
 }

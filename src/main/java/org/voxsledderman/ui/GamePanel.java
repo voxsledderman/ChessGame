@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     Board board = new Board();
     BoardDrawer boardDrawer = new BoardDrawer(board);
 
+
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.white);
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
         boardDrawer.drawSquares(g2);
+        boardDrawer.drawPieces(g2);
     }
 }

@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.voxsledderman.enums.ChessColor;
 
-import java.awt.image.BufferedImage;
-
 @Getter
 @Setter
 public class Board {
@@ -16,36 +14,44 @@ public class Board {
     }
 
     private void setupStartingPositions(){
-        addPawns(ChessColor.WHITE, null);
+        addPawns(ChessColor.WHITE);
         addPieces(ChessColor.WHITE);
 
-        addPawns(ChessColor.BLACK, null);
+        addPawns(ChessColor.BLACK);
         addPieces(ChessColor.BLACK);
     }
 
-    public void movePiece(Piece piece, int x, int y){}
+    public void movePiece(Piece piece, int row, int col){}
 
-    public Piece getPieceAt(int x, int y){
-        return board[x][y];
+    public Piece getPieceAt(int row, int col){
+        return board[row][col];
     }
 
 
 
-    private void addPawns(ChessColor color, BufferedImage image){
-        int x = color == ChessColor.WHITE ? 6 : 1;
-        for(int i = 0; i < board[0].length; i++){
-            Pawn p = new Pawn(color, image);
-            board[x][i] = p;
+    private void addPawns(ChessColor color){
+        boolean isWhite = color == ChessColor.WHITE;
+        int row = isWhite ? 6 : 1;
+        String pathToImg = isWhite ? "w-pawn" : "b-pawn";
+        for(int col = 0; col < board[0].length; col++){
+            Pawn p = new Pawn(color, pathToImg);
+            board[row][col] = p;
         }
     }
     private void addPieces(ChessColor color){
-        int x = color == ChessColor.WHITE ? 7 : 0;
+        boolean isWhite = color == ChessColor.WHITE;
+        int row = isWhite ? 7 : 0;
+        String pathToImg = isWhite ? "w-" : "b-";
 
-        board[x][0] = board[x][7] = new Rook(color, null);
-        board[x][1] = board[x][6] = new Knight(color, null);
-        board[x][2] = board[x][5] = new Bishop(color, null);
-        board[x][3] = new Queen(color, null);
-        board[x][4] = new King(color, null);
+
+        board[row][0] = new Rook(color, pathToImg + "rook");
+        board[row][7] = new Rook(color, pathToImg + "rook");
+        board[row][1] = new Knight(color, pathToImg + "knight");
+        board[row][6] = new Knight(color, pathToImg + "knight");
+        board[row][2] = new Bishop(color, pathToImg + "bishop");
+        board[row][5] = new Bishop(color, pathToImg + "bishop");
+        board[row][3] = new Queen(color, pathToImg + "queen");
+        board[row][4] = new King(color, pathToImg + "king");
 
     }
 }
