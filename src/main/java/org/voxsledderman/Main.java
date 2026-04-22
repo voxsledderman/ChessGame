@@ -17,7 +17,7 @@ public class Main {
         frame.add(gamePanel);
         frame.pack();
 
-       frame.setResizable(false);
+       frame.setResizable(true);
        frame.setLocationRelativeTo(null);
        frame.setVisible(true);
 
