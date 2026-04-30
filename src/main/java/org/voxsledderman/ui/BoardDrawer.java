@@ -6,11 +6,13 @@ import org.voxsledderman.logic.Piece;
 
 import java.awt.*;
 
+@Getter
 public class BoardDrawer {
-    private final int SQUARE_SIZE = 100;
-    private final int OFFSET = 40;
-    private final int PIECE_SIZE = 100;
-    private final int PIECE_Y_OFFSET = 5;
+    public static final int SQUARE_SIZE = 100;
+    public static final int OFFSET = 40;
+    public static final int PIECE_SIZE = 100;
+    public static final int PIECE_Y_OFFSET = 5;
+    public final static int CENTERING_PADDING = (SQUARE_SIZE - PIECE_SIZE) / 2;
 
     private final Board board;
     private final Color WHITE_SQUARE_COLOR = new Color(240, 248, 255);
@@ -21,11 +23,10 @@ public class BoardDrawer {
     }
 
     public void drawSquares(Graphics2D g2){
-        var bArr = board.getBoard();
         drawLabels(g2);
 
-        for(int i = 0; i < bArr.length; i++){
-            for(int j = 0; j < bArr[i].length; j++){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
                 boolean white = (i + j) % 2 == 0;
                 var color = white ? WHITE_SQUARE_COLOR : BLACK_SQUARE_COLOR;
                 g2.setColor(color);
@@ -51,20 +52,13 @@ public class BoardDrawer {
     }
 
     public void drawPieces(Graphics2D g2) {
-        Piece[][] piecesArray = board.getBoard();
-        int centeringPadding = (SQUARE_SIZE - PIECE_SIZE) / 2;
 
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Piece piece = piecesArray[row][col];
 
-                if (piece != null) {
-                    int xPixel = OFFSET + col * SQUARE_SIZE + centeringPadding;
-                    int yPixel = OFFSET + row * SQUARE_SIZE + centeringPadding - PIECE_Y_OFFSET;
+        for(Piece piece : board.getPiecesSet()){
+            int yPixel = OFFSET + piece.getRow() * SQUARE_SIZE + CENTERING_PADDING - PIECE_Y_OFFSET;
+            int xPixel = OFFSET + piece.getCol() * SQUARE_SIZE + CENTERING_PADDING;
 
-                    g2.drawImage(piece.getImage(), xPixel, yPixel, PIECE_SIZE, PIECE_SIZE, null);
-                }
-            }
+            g2.drawImage(piece.getImage(), xPixel, yPixel, PIECE_SIZE, PIECE_SIZE, null);
         }
     }
 }
