@@ -3,6 +3,7 @@ package org.voxsledderman;
 import org.voxsledderman.ui.GamePanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,6 +21,7 @@ public class Main {
        frame.setResizable(true);
        frame.setLocationRelativeTo(null);
        frame.setVisible(true);
+
 
         gamePanel.launch();
 

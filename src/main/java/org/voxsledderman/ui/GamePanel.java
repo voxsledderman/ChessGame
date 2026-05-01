@@ -1,6 +1,7 @@
 package org.voxsledderman.ui;
 
 import org.voxsledderman.Mouse;
+import org.voxsledderman.enums.ChessColor;
 import org.voxsledderman.logic.Board;
 import org.voxsledderman.logic.Piece;
 
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final BoardDrawer boardDrawer = new BoardDrawer(board);
     private final Mouse mouse = new Mouse();
     private Piece clickedPiece = null;
+    private ChessColor turn =  ChessColor.WHITE;
 
 
     public GamePanel() {
@@ -58,7 +60,11 @@ public class GamePanel extends JPanel implements Runnable {
             if(clickedPiece != null){
                 int col = (mouse.getX() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
                 int row = (mouse.getY() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
-                board.movePiece(clickedPiece, row, col);
+                if(clickedPiece.getColor() != turn) {
+                    clickedPiece = null;
+                    return;
+                }
+                if(board.movePiece(clickedPiece, row, col)) turn = turn.getOther();
             }
             clickedPiece = null;
             return;
