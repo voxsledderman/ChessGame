@@ -14,8 +14,11 @@ public class Rook extends Piece{
     @Override
     public List<Move> getMoves(Collection<Piece> pieces) {
         List<Move> moves = new ArrayList<>();
-        for(int i = 1; i < 8; i++){
-
+        Move[] directions = new Move[]{
+                Move.from(1,0), Move.from(-1,0), Move.from(0,-1), Move.from(0,1)
+        };
+        for(Move dir : directions){
+            moves.addAll(getDirectionMoves(dir, pieces));
         }
 
         return moves;

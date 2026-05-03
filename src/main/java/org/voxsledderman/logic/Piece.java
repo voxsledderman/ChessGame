@@ -10,9 +10,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+//TODO: Refactor for SOLID rules
 @Getter
 @Setter
 public abstract class Piece {
@@ -62,6 +64,25 @@ public abstract class Piece {
             }
         }
         return null;
+    }
+    protected List<Move> getDirectionMoves(Move dir, Collection<Piece> pieces){
+        List<Move> dirMoves = new ArrayList<>();
+        for(int i = 1; i < 8; i++){
+            Move move = Move.from(getRow() + (i * dir.row()), getCol() + (i * dir.col()));
+
+            if(isMoveInBoard(move)){
+                Piece pieceAt = getPieceAt(move.row(), move.col(), pieces);
+                if(pieceAt == null){
+                    dirMoves.add(move);
+                } else {
+                    if(isDifferentColor(pieceAt)){
+                        dirMoves.add(move);
+                    }
+                    break;
+                }
+            } else break;
+        }
+        return dirMoves;
     }
     public boolean isMoveLegal(Collection<Piece> pieces, int row, int col){
         return getMoves(pieces).contains(new Move(row, col));

@@ -15,8 +15,8 @@ public class Pawn extends Piece {
     @Override
     public List<Move> getMoves(Collection<Piece> pieces) {
         List<Move> moves = new ArrayList<>();
-        int startingRow = (getColor() == ChessColor.WHITE) ? 6 : 1;
-        int direction = (getColor() == ChessColor.WHITE) ? -1 : 1;
+        int startingRow = getColor() == ChessColor.WHITE ? 6 : 1;
+        int direction = getColor() == ChessColor.WHITE ? -1 : 1;
         int forwardRow = getRow() + direction;
 
         Move forwardMove = Move.from(forwardRow, getCol());

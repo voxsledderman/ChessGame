@@ -54,7 +54,7 @@ public class BoardDrawer {
 
     public void drawPieces(Graphics2D g2, Piece toBeSkipped) {
 
-        for(Piece piece : board.getPiecesSet()){
+        for(Piece piece : board.getPiecesList()){
             if(piece.equals(toBeSkipped)) continue;
 
             int yPixel = OFFSET + piece.getRow() * SQUARE_SIZE + CENTERING_PADDING - PIECE_Y_OFFSET;
@@ -74,7 +74,7 @@ public class BoardDrawer {
         int innerSize = (int) (SQUARE_SIZE * 0.20);
         int innerOffset = (SQUARE_SIZE - innerSize) / 2;
 
-        for (Move move : clickedPiece.getMoves(board.getPiecesSet())) {
+        for (Move move : clickedPiece.getMoves(board.getPiecesList())) {
             int cellX = OFFSET + move.col() * SQUARE_SIZE;
             int cellY = OFFSET + move.row() * SQUARE_SIZE;
             g2.drawOval(cellX + outerOffset, cellY + outerOffset, outerSize, outerSize);
