@@ -51,6 +51,10 @@ public abstract class Piece {
     protected boolean isMoveInBoard(Move move){
         return move.col() >= 0 && move.col() < 8 && move.row() >= 0 && move.row() < 8;
     }
+    protected boolean isDifferentColor(Piece piece){
+        if(piece == null) return true;
+        return !(color == piece.getColor());
+    }
     protected Piece getPieceAt(int r, int c, Collection<Piece> pieces) {
         for (Piece p : pieces) {
             if (p.getRow() == r && p.getCol() == c) {

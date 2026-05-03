@@ -6,13 +6,12 @@ import org.voxsledderman.enums.ChessColor;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Getter
 @Setter
 public class Board {
-    private final HashSet<Piece> piecesSet = new HashSet<>();
+    private final List<Piece> piecesSet = new ArrayList<>();
     private final List<Piece> capturedPieces = new ArrayList<>();
     public Board(){
         setupStartingPositions();

@@ -32,10 +32,10 @@ public class Pawn extends Piece {
         if (isMoveInBoard(forwardMove) && pieceAtForward == null) {
             moves.add(forwardMove);
         }
-        if (isMoveInBoard(captureL) && pieceAtL != null && pieceAtL.getColor() != this.getColor()) {
+        if (isMoveInBoard(captureL) && pieceAtL != null && isDifferentColor(pieceAtL)) {
             moves.add(captureL);
         }
-        if (isMoveInBoard(captureR) && pieceAtR != null && pieceAtR.getColor() != this.getColor()) {
+        if (isMoveInBoard(captureR) && pieceAtR != null && isDifferentColor(pieceAtR)) {
             moves.add(captureR);
         }
         if(pieceAtForward == null && pieceAtDoubleForward == null && getRow() == startingRow){
