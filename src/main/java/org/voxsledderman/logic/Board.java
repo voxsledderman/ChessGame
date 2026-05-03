@@ -29,6 +29,7 @@ public class Board {
     public boolean movePiece(Piece piece, int row, int col){
         if(piece == null) return false;
         if (!(col >= 0 && col < 8 && row >= 0 && row < 8)) return false;
+        if(!piece.isMoveLegal(piecesSet, row, col)) return false;
         Piece capturedPiece = getPieceAt(row, col);
         if(capturedPiece != null && (piece == capturedPiece || piece.getColor() == capturedPiece.getColor())) return false;
         captureIfNeeded(row, col);

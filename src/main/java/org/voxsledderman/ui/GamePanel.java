@@ -3,10 +3,18 @@ package org.voxsledderman.ui;
 import org.voxsledderman.Mouse;
 import org.voxsledderman.enums.ChessColor;
 import org.voxsledderman.logic.Board;
+import org.voxsledderman.logic.Move;
 import org.voxsledderman.logic.Piece;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import static org.voxsledderman.ui.BoardDrawer.OFFSET;
+import static org.voxsledderman.ui.BoardDrawer.SQUARE_SIZE;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -19,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final BoardDrawer boardDrawer = new BoardDrawer(board);
     private final Mouse mouse = new Mouse();
     private Piece clickedPiece = null;
-    private ChessColor turn =  ChessColor.WHITE;
+    private ChessColor turn = ChessColor.WHITE;
 
 
     public GamePanel() {
@@ -37,18 +45,19 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
-            if(delta >= 1){
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
             }
         }
     }
+
     public void launch() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -56,22 +65,22 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     private void update() {
-        if(!mouse.pressed){
-            if(clickedPiece != null){
-                int col = (mouse.getX() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
-                int row = (mouse.getY() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
-                if(clickedPiece.getColor() != turn) {
+        if (!mouse.pressed) {
+            if (clickedPiece != null) {
+                int col = (mouse.getX() - OFFSET) / SQUARE_SIZE;
+                int row = (mouse.getY() - OFFSET) / SQUARE_SIZE;
+                if (clickedPiece.getColor() != turn) {
                     clickedPiece = null;
                     return;
                 }
-                if(board.movePiece(clickedPiece, row, col)) turn = turn.getOther();
+                if (board.movePiece(clickedPiece, row, col)) turn = turn.getOther();
             }
             clickedPiece = null;
             return;
         }
-        if(clickedPiece == null) {
-            int col = (mouse.getX() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
-            int row = (mouse.getY() - BoardDrawer.OFFSET) / BoardDrawer.SQUARE_SIZE;
+        if (clickedPiece == null) {
+            int col = (mouse.getX() - OFFSET) / SQUARE_SIZE;
+            int row = (mouse.getY() - OFFSET) / SQUARE_SIZE;
 
             if (col >= 0 && col < 8 && row >= 0 && row < 8) {
                 clickedPiece = board.getPieceAt(row, col);
@@ -81,15 +90,18 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void simulate(){
-        clickedPiece.x = mouse.x - 40;
-        clickedPiece.y = mouse.y - 50;
+    private void simulate() {
+        clickedPiece.setX(mouse.x - 40);
+        clickedPiece.setY(mouse.y - 50);
     }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         boardDrawer.drawSquares(g2);
-        boardDrawer.drawPieces(g2);
+        boardDrawer.drawPieces(g2, clickedPiece);
+        if(clickedPiece != null && clickedPiece.getColor() == turn) boardDrawer.drawPossibleMoves(g2, clickedPiece);
         if(clickedPiece != null) clickedPiece.draw(g2);
     }
 }
+

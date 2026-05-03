@@ -10,15 +10,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 public abstract class Piece {
-    public final ChessColor color;
-    public final BufferedImage image;
-    public int x, y;
-    public int row, col;
+    private final ChessColor color;
+    private final BufferedImage image;
+    private int x, y;
+    private int row, col;
 
     protected Piece(ChessColor color, String pathToImage, int row, int col) {
         this.color = color;
@@ -41,7 +42,24 @@ public abstract class Piece {
         }
     }
 
+    public abstract List<Move> getMoves(Collection<Piece> pieces);
+
+
     public void draw(Graphics2D g2){
         g2.drawImage(image, x, y, BoardDrawer.SQUARE_SIZE, BoardDrawer.SQUARE_SIZE, null);
+    }
+    protected boolean isMoveInBoard(Move move){
+        return move.col() >= 0 && move.col() < 8 && move.row() >= 0 && move.row() < 8;
+    }
+    protected Piece getPieceAt(int r, int c, Collection<Piece> pieces) {
+        for (Piece p : pieces) {
+            if (p.getRow() == r && p.getCol() == c) {
+                return p;
+            }
+        }
+        return null;
+    }
+    public boolean isMoveLegal(Collection<Piece> pieces, int row, int col){
+        return getMoves(pieces).contains(new Move(row, col));
     }
 }

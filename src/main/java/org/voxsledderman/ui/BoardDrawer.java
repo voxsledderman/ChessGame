@@ -2,6 +2,7 @@ package org.voxsledderman.ui;
 
 import lombok.Getter;
 import org.voxsledderman.logic.Board;
+import org.voxsledderman.logic.Move;
 import org.voxsledderman.logic.Piece;
 
 import java.awt.*;
@@ -51,14 +52,34 @@ public class BoardDrawer {
         }
     }
 
-    public void drawPieces(Graphics2D g2) {
-
+    public void drawPieces(Graphics2D g2, Piece toBeSkipped) {
 
         for(Piece piece : board.getPiecesSet()){
+            if(piece.equals(toBeSkipped)) continue;
+
             int yPixel = OFFSET + piece.getRow() * SQUARE_SIZE + CENTERING_PADDING - PIECE_Y_OFFSET;
             int xPixel = OFFSET + piece.getCol() * SQUARE_SIZE + CENTERING_PADDING;
 
             g2.drawImage(piece.getImage(), xPixel, yPixel, PIECE_SIZE, PIECE_SIZE, null);
         }
+    }
+    public void drawPossibleMoves(Graphics2D g2, Piece clickedPiece) {
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Color gray = new Color(85, 85, 85, 70);
+        g2.setColor(gray);
+        int outerSize = (int) (SQUARE_SIZE * 0.6);
+        int outerOffset = (SQUARE_SIZE - outerSize) / 2;
+        g2.setStroke(new BasicStroke(2f));
+
+        int innerSize = (int) (SQUARE_SIZE * 0.20);
+        int innerOffset = (SQUARE_SIZE - innerSize) / 2;
+
+        for (Move move : clickedPiece.getMoves(board.getPiecesSet())) {
+            int cellX = OFFSET + move.col() * SQUARE_SIZE;
+            int cellY = OFFSET + move.row() * SQUARE_SIZE;
+            g2.drawOval(cellX + outerOffset, cellY + outerOffset, outerSize, outerSize);
+            g2.fillOval(cellX + innerOffset, cellY + innerOffset, innerSize, innerSize);
+        }
+        g2.setStroke(new BasicStroke(1.0f));
     }
 }
